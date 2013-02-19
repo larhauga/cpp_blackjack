@@ -17,7 +17,7 @@
 *~
 
 # C++ implementation (! hide from students !)
-*.cpp
+#*.cpp #Jeg skal jobbe
 
 # Project-specific binary
 blackjack
