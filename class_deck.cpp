@@ -31,7 +31,7 @@ namespace cards{
     }
     card deck::deal(){
         //Creating card object to return, and removes the card
-        card c(cards.back());
+        card c = cards.back();
         cards.pop_back();
         return c;
     }
