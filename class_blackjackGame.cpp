@@ -2,11 +2,12 @@
 #include "class_deck.h"
 #include "class_card.h"
 #include "class_blackjackGame.h"
-
+#include "gameTypes.h"
+#include <iostream>
 
 namespace casino{
 
-    blackjackGame::blackjackGame(int players){
+    blackjackGame::blackjackGame(int players) : game(blackjack, players) {
     
     };
         
@@ -19,6 +20,10 @@ namespace casino{
             // Everyday I'm shuffeling
         deck = cards::deck(2);
         deck.shuffle();
+        cards::card c = deck.deal();
+
+        // Debug printline
+        std::cout << c.getRank() << std::endl;
         // while playing some rounds m'kay
     }
 
