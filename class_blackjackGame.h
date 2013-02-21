@@ -4,6 +4,10 @@
 
 #include "class_game.h"
 
+// Included after new blackjackGame class functions
+#include "class_card.h"
+#include <vector>
+
 namespace casino{
   
   class blackjackGame : public game 
@@ -19,6 +23,11 @@ namespace casino{
 
     //Overridden from game
     virtual void start();
+
+    //Not part of original design
+    cards::deck deck;
+    int cardPoints(cards::card);
+    int handValue(std::vector<cards::card>);
     
   };
 

@@ -34,6 +34,8 @@ Som nevnt på forelesning håper vi å kunne bruke git som innleveringsverktøy.
 
 **PS:** *Ikke vær bekymret for å vise "tabber" eller gammel, dårlig kode i historikken - det er bare fint. Det eneste som har noe å si er resultatet til slutt.*
 
+**OBS:** *Du skal* **IKKE** *på noe tidspunkt gjøre dine .cpp filer tilgjengelige på github eller andre steder, slik at andre kan se dem. Dette vil bli betraktet som bidrag til juks.*
+
 ##Forslag til fremgangsmåte i prioritert rekkefølge 
 1. Lag en fungerende kort og kortstokk med 52 kort
 3. Skriv en funksjon (evt. del av start()) i blackjackGame, som avgjør hvor mange poeng en hånd (vector av kort) gir. Vurder om dette bør være del av en funksjon, en medlemsfunksjon eller en frittstående funksjon. Husk at du kan redigere *class_blackjackGame.h*, men ikke andre header-filer.

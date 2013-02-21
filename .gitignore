@@ -16,8 +16,11 @@
 #Emacs garbage
 *~
 
-# C++ implementation (! hide from students !)
-#*.cpp #Jeg skal jobbe
+#Vim garbage
+*.swp
+
+# C++ implementation
+# *.cpp
 
 # Project-specific binary
 blackjack
