@@ -20,33 +20,44 @@ namespace casino{
             // Everyday I'm shuffeling
         deck = cards::deck(2);
         deck.shuffle();
-        cards::card c = deck.deal();
 
-        // Debug printline
-        std::cout << c.getRank() << std::endl;
-        // std::cout << cardPoints(c) << std::endl; // Reference to cardPoints at this points causes undefined reference. Outcommented waiting fix.
+        std::vector<cards::card> v;
+
+        v.push_back(deck.deal());
+        v.push_back(deck.deal());
+        v.push_back(deck.deal());
+        v.push_back(deck.deal());
+
+        std::cout << "Rank: " << v[0].getRank() << " Points: " << cardPoints(v[0]) << std::endl<<std::endl;
+        std::cout << "Rank: " << v[1].getRank() << " Points: " << cardPoints(v[1]) << std::endl<<std::endl; 
+        std::cout << "Rank: " << v[2].getRank() << " Points: " << cardPoints(v[2]) << std::endl<<std::endl;
+        std::cout << "Rank: " << v[3].getRank() << " Points: " << cardPoints(v[3]) << std::endl<<std::endl;
+
+        std::cout << handValue(v) << std::endl;
         playRound();
         // while playing some rounds m'kay
     }
 
     // This function is right now not a part of the class
-    int cardPoints(cards::card c){
+    int blackjackGame::cardPoints(cards::card c){
         for(int i = 0; i < cards::NUM_RANKS; i++){
             if(cards::ranks[i] == c.getRank()){
-                if(i < 10){
+                if(i < 8){
                     return i+2;
                 }
-                else{
-                    return -1;
-                    //ikke ferdig
+                else if(i > 7 && cards::ranks[i] != 'A'){
+                    return 10;
+                }
+                else if(cards::ranks[i] == 'A'){
+                    return 11;
                 }
             }
         }
         return 0;
     }
-    int handValue(std::vector<cards::card> c){
+    int blackjackGame::handValue(std::vector<cards::card> c){
         int value = 0;
-        value += cardPoints(c[0]);
+        value += blackjackGame::cardPoints(c[0]);
         return value;
     }
 }
