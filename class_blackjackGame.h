@@ -6,6 +6,7 @@
 
 // Included after new blackjackGame class functions
 #include "class_card.h"
+#include "class_deck.h"
 #include <vector>
 
 namespace casino{

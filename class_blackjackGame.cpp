@@ -24,6 +24,8 @@ namespace casino{
 
         // Debug printline
         std::cout << c.getRank() << std::endl;
+        // std::cout << cardPoints(c) << std::endl; // Reference to cardPoints at this points causes undefined reference. Outcommented waiting fix.
+        playRound();
         // while playing some rounds m'kay
     }
 
@@ -39,7 +41,8 @@ namespace casino{
                     //ikke ferdig
                 }
             }
-        } 
+        }
+        return 0;
     }
     int handValue(std::vector<cards::card> c){
         int value = 0;
