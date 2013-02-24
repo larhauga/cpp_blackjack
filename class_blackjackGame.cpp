@@ -1,9 +1,11 @@
 #include <vector> // Used in hands
+#include <iostream>
+
+#include "class_blackjackGame.h"
 #include "class_deck.h"
 #include "class_card.h"
-#include "class_blackjackGame.h"
 #include "gameTypes.h"
-#include <iostream>
+#include "class_blackjackState.h"
 
 namespace casino{
 
@@ -13,10 +15,11 @@ namespace casino{
         
 
     void blackjackGame::playRound(){
-        // Do something
+        // Fixing vectors
         std::vector<cards::card> dealer;
         std::vector<cards::card> player;
         std::vector<std::vector<cards::card> > cards;
+
         //Dealing
         player.push_back(deck.deal());
         dealer.push_back(deck.deal());
@@ -25,7 +28,25 @@ namespace casino{
         cards.push_back(player);
         cards.push_back(dealer);
 
-        
+        //It's all about the State!
+        gameState* state;
+        state = new blackjackState(cards, 0, 1); 
+
+        std::string inState = "";
+        while(blackjackGame::handValue(player) < 21 && inState != "STAND"){
+            state->print();
+            delete state;
+            std::cout << "HIT or STAND: ";
+            std::cin >> inState;
+            if(inState == "HIT"){
+                cards::card c = deck.deal();
+                cards[0].push_back(c);
+                player.push_back(c);
+                state = new blackjackState(cards, 0, 1);
+
+               
+            }
+        }
 
         int score_dealer = blackjackGame::handValue(dealer);
         int score_player = blackjackGame::handValue(player);
