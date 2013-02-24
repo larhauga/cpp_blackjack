@@ -14,6 +14,36 @@ namespace casino{
 
     void blackjackGame::playRound(){
         // Do something
+        std::vector<cards::card> dealer;
+        std::vector<cards::card> player;
+        
+        //Dealing
+        player.push_back(deck.deal());
+        dealer.push_back(deck.deal());
+        player.push_back(deck.deal());
+        dealer.push_back(deck.deal());
+
+        int score_dealer = blackjackGame::handValue(dealer);
+        int score_player = blackjackGame::handValue(player);
+
+        std::cout << "Player score: " << score_player << std::endl;
+        std::cout << "Dealer score: " << score_dealer << std::endl;
+        if(score_player == 21){
+            std::cout << "BLACKJACK! Player won!" << std::endl;
+        }
+        else if(score_dealer <= 21 &&score_dealer > score_player){
+            std::cout << "Dealer won with total score of " << score_dealer << " points!" << std::endl;
+        }
+        else if(score_player <= 21 && score_player > score_dealer){
+            std::cout << "Player won with total score of " << score_player << " points!" << std::endl;
+        }
+        else if(score_player > 21 && score_dealer > 21){
+            std::cout << "Went skyhigh and no one won!" << std::endl;
+        }
+        else if(score_player == score_dealer){
+            std::cout << "Push..." << std::endl;
+        }
+        
     }
     void blackjackGame::start(){
         // Setting up the deck
@@ -24,21 +54,6 @@ namespace casino{
 
         std::vector<cards::card> v;
 
-        //v.push_back(deck.deal());
-        //v.push_back(deck.deal());
-        //v.push_back(deck.deal());
-        //v.push_back(deck.deal());
-        v.push_back(cards::card((cards::t_suit)cards::SPADES, (cards::t_rank)'A'));
-        v.push_back(cards::card((cards::t_suit)cards::HEARTS, (cards::t_rank)'A'));
-        v.push_back(cards::card((cards::t_suit)cards::CLUBS, (cards::t_rank)'A'));
-        v.push_back(cards::card((cards::t_suit)cards::DIAMONDS, (cards::t_rank)'A'));
-
-        std::cout << "Rank: " << v[0].getRank() << " Points: " << cardPoints(v[0]) << std::endl<<std::endl;
-        std::cout << "Rank: " << v[1].getRank() << " Points: " << cardPoints(v[1]) << std::endl<<std::endl; 
-        std::cout << "Rank: " << v[2].getRank() << " Points: " << cardPoints(v[2]) << std::endl<<std::endl;
-        std::cout << "Rank: " << v[3].getRank() << " Points: " << cardPoints(v[3]) << std::endl<<std::endl;
-
-        std::cout << handValue(v) << std::endl;
         playRound();
         // while playing some rounds m'kay
     }
@@ -62,11 +77,27 @@ namespace casino{
         }
 
         if(ace.size() > 0){
-            for(std::vector<cards::card>::iterator i = ace.begin(); i != ace.end(); ++i){
-                if(handTotal < 11){
+            if(ace.size() > 1){
+                if(handTotal < (11 - ace.size()))
+                {
                     handTotal += 11;
-                }else{
+                    handTotal += (ace.size()-1);
+                }
+                else{
+                    handTotal += ace.size(); 
+                    //for(std::vector<cards::card>::iterator i = ace.begin(); i != ace.end(); ++i){
+                    //    if(handTotal < 11){
+                    //        handTotal += 11;
+                    //    }else{
+                    //        handTotal += 1;
+                    //    }
+                    //}
+                }
+            }else{
+                if(handTotal > 10){
                     handTotal += 1;
+                }else{
+                    handTotal += 11;
                 }
             }
         }
