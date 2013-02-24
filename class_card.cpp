@@ -6,7 +6,7 @@ namespace cards{
         rank = r;
     };
     std::string card::name(){
-        return std::string(suit_name[card::suit] + card::rank);
+        return std::string(suit_name[card::suit] + " " + card::rank);
     };
 
     t_suit card::getSuit(){
