@@ -1,5 +1,7 @@
 #include "class_blackjackState.h"
 #include <vector>
+#include <iostream> // For the print method
+#include "class_blackjackGame.h"
 
 namespace casino{
 
@@ -25,7 +27,16 @@ namespace casino{
     int blackjackState::getDealer(){
         return dealer;
     }
-    void print(){
-        
+    void blackjackState::print(){
+        // Printing helping text
+        std::cout << "Player hand as following: " << std::endl;
+
+        // Printing the players hand...
+        for(int i = 0; i < cardsDealt[ourHero].size(); i++){
+            std::cout << cardsDealt[ourHero][i].name() << std::endl;
+        }
+
+        // Printing the dealers hand
+        std::cout << "The dealer shows one card: " << cardsDealt[dealer][0].name() << std::endl;
     }
 }
