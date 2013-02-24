@@ -16,12 +16,16 @@ namespace casino{
         // Do something
         std::vector<cards::card> dealer;
         std::vector<cards::card> player;
-        
+        std::vector<std::vector<cards::card> > cards;
         //Dealing
         player.push_back(deck.deal());
         dealer.push_back(deck.deal());
         player.push_back(deck.deal());
         dealer.push_back(deck.deal());
+        cards.push_back(player);
+        cards.push_back(dealer);
+
+        
 
         int score_dealer = blackjackGame::handValue(dealer);
         int score_player = blackjackGame::handValue(player);
