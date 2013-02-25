@@ -19,7 +19,7 @@ namespace casino{
         std::vector<cards::card> dealer;
         std::vector<cards::card> player;
         std::vector<std::vector<cards::card> > cards;
-
+        
         //Dealing
         player.push_back(deck.deal());
         dealer.push_back(deck.deal());
@@ -31,32 +31,49 @@ namespace casino{
         //It's all about the State!
         gameState* state;
         state = new blackjackState(cards, 0, 1); 
+        int score_dealer = 0;
+        int score_player = 0;
 
         std::string inState = "";
+        // Playing with a player
         while(blackjackGame::handValue(player) < 21 && inState != "STAND"){
-            state->print();
-            delete state;
-            std::cout << "HIT or STAND: ";
-            std::cin >> inState;
-            if(inState == "HIT"){
-                cards::card c = deck.deal();
-                cards[0].push_back(c);
-                player.push_back(c);
-                state = new blackjackState(cards, 0, 1);
+            score_dealer = blackjackGame::handValue(dealer);
+            score_player = blackjackGame::handValue(player);
 
-               
+            if(score_player > 21){
+                inState = "STAND";
+            }else{
+
+                // Print the state of things
+                state->print();
+                delete state;
+            
+                std::cout << "HIT or STAND: ";
+                std::cin >> inState;
+
+                if(inState == "HIT"){
+                    cards::card c = deck.deal();
+                    cards[0].push_back(c);
+                    player.push_back(c);
+                    state = new blackjackState(cards, 0, 1);
+                    score_player = blackjackGame::handValue(player);
+                }
             }
         }
+        
+        // The house is playing
+        while(blackjackGame::handValue(dealer) < 17){
+            cards::card c = deck.deal();
+            cards[1].push_back(c);
+            dealer.push_back(c);
+            state = new blackjackState(cards, 0, 1);
+            score_dealer = blackjackGame::handValue(dealer);
+        }
 
-        int score_dealer = blackjackGame::handValue(dealer);
-        int score_player = blackjackGame::handValue(player);
-
-        std::cout << "Player score: " << score_player << std::endl;
-        std::cout << "Dealer score: " << score_dealer << std::endl;
         if(score_player == 21){
             std::cout << "BLACKJACK! Player won!" << std::endl;
         }
-        else if(score_dealer <= 21 &&score_dealer > score_player){
+        else if(score_dealer <= 21 && score_dealer > score_player){
             std::cout << "Dealer won with total score of " << score_dealer << " points!" << std::endl;
         }
         else if(score_player <= 21 && score_player > score_dealer){
@@ -68,6 +85,9 @@ namespace casino{
         else if(score_player == score_dealer){
             std::cout << "Push..." << std::endl;
         }
+        std::cout << "Dealer score: " << score_dealer << std::endl;
+        //std::cout << dealer[0].name() << " " << dealer[1].name() << " " << dealer[2].name() << std::endl;
+        std::cout << "Player score: " << score_player << std::endl;
         
     }
     void blackjackGame::start(){
@@ -110,13 +130,6 @@ namespace casino{
                 }
                 else{
                     handTotal += ace.size(); 
-                    //for(std::vector<cards::card>::iterator i = ace.begin(); i != ace.end(); ++i){
-                    //    if(handTotal < 11){
-                    //        handTotal += 11;
-                    //    }else{
-                    //        handTotal += 1;
-                    //    }
-                    //}
                 }
             }else{
                 if(handTotal > 10){
