@@ -34,6 +34,7 @@ namespace casino{
         int score_dealer = 0;
         int score_player = 0;
 
+
         std::string inState = "";
         // Playing with a player
         while(blackjackGame::handValue(player) < 21 && inState != "STAND"){
@@ -46,9 +47,9 @@ namespace casino{
 
                 // Print the state of things
                 state->print();
-                delete state;
             
                 std::cout << "HIT or STAND: ";
+                inState = "";
                 std::cin >> inState;
 
                 if(inState == "HIT"){
@@ -89,7 +90,9 @@ namespace casino{
         //std::cout << dealer[0].name() << " " << dealer[1].name() << " " << dealer[2].name() << std::endl;
         std::cout << "Player score: " << score_player << std::endl;
         
+        delete state;
     }
+
     void blackjackGame::start(){
         // Setting up the deck
         deck = cards::deck(2);
@@ -97,10 +100,19 @@ namespace casino{
         // Everyday I'm shuffeling
         deck.shuffle();
 
-        std::vector<cards::card> v;
-
-        playRound();
         // while playing some rounds m'kay
+        try{
+            std::string* s = new std::string();
+            *s = "y";
+        
+            while(*s == "Y" || *s == "y"){
+                playRound();
+
+                std::cout << std::endl << "Play another round? (y/n): ";
+                std::cin >> *s;
+            }
+        }catch(int e){
+        }
     }
 
     int blackjackGame::handValue(std::vector<cards::card> c){
