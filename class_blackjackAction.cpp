@@ -5,6 +5,7 @@ namespace casino{
 
     blackjackAction::blackjackAction(controlType ct) : action(){
         if(ct == TERMINAL){
+            print();
             std::string input;
             std::cin >> input;
             if(input == "HIT"){
