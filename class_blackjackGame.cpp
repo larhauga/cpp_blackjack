@@ -35,6 +35,9 @@ namespace casino{
         int score_player = 0;
 
 
+        action* a = gamblers[0].takeAction(state);
+        //std::cout << *a->getAtype();
+
         std::string inState = "";
         // Playing with a player
         while(blackjackGame::handValue(player) < 21 && inState != "STAND"){
@@ -86,11 +89,12 @@ namespace casino{
         else if(score_player == score_dealer){
             std::cout << "Push..." << std::endl;
         }
-        std::cout << "Dealer score: " << score_dealer << std::endl;
-        //std::cout << dealer[0].name() << " " << dealer[1].name() << " " << dealer[2].name() << std::endl;
+
         std::cout << "Player score: " << score_player << std::endl;
+        std::cout << "Dealer score: " << score_dealer << std::endl;
         
         delete state;
+
     }
 
     void blackjackGame::start(){
@@ -111,6 +115,7 @@ namespace casino{
                 std::cout << std::endl << "Play another round? (y/n): ";
                 std::cin >> *s;
             }
+            delete s;
         }catch(int e){
         }
     }
