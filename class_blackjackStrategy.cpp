@@ -3,9 +3,10 @@
 
 namespace casino{
     blackjackStrategy::blackjackStrategy(controlType ct) : strategy(){
-        
+       // Nowhere to initialize the controlType. Missing setters to base or local variable 
     }
     action* blackjackStrategy::takeAction(gameState* g){
-        
+        action* a = new blackjackAction(TERMINAL);
+        return a;
     }
 }
