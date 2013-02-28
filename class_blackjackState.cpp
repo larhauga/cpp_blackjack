@@ -37,6 +37,6 @@ namespace casino{
         }
 
         // Printing the dealers hand
-        std::cout << "The dealer shows one card: " << cardsDealt[dealer][0].name() << std::endl;
+        std::cout << std::endl << "The dealer shows one card: " << cardsDealt[dealer][0].name() << std::endl;
     }
 }
