@@ -15,7 +15,7 @@ namespace casino{
                 std::cout << "Unknown action. HIT or STAND" << std::endl;
             }
         }else{
-            // Maby implementation of dealer? Dealer is after all a computer player
+
         }
     }
 
@@ -23,6 +23,6 @@ namespace casino{
         return actionType;
     }
     void blackjackAction::print(){
-       // Usikker på hva som skal være her 
+        std::cout << "HIT or STAND: ";
     }
 }
