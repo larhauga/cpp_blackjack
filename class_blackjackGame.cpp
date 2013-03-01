@@ -6,6 +6,7 @@
 #include "class_card.h"
 #include "gameTypes.h"
 #include "class_blackjackState.h"
+#include "class_blackjackAction.h"
 
 namespace casino{
 
@@ -36,8 +37,13 @@ namespace casino{
 
 
         action* a = gamblers[0].takeAction(state);
-        //std::cout << *a->getAtype();
-
+        a->print();
+        blackjackAction* bla = static_cast<blackjackAction*>(a);
+        blackjackAction::atype b = bla->getAtype();
+        
+        //blackjackAction::atype ty = *a.getAtype();
+        std::cout << b << std::endl;
+/*
         std::string inState = "";
         // Playing with a player
         while(blackjackGame::handValue(player) < 21 && inState != "STAND"){
@@ -64,7 +70,7 @@ namespace casino{
                 }
             }
         }
-        
+*/        
         // The house is playing
         while(blackjackGame::handValue(dealer) < 17){
             cards::card c = deck.deal();
@@ -94,6 +100,7 @@ namespace casino{
         std::cout << "Dealer score: " << score_dealer << std::endl;
         
         delete state;
+        delete a;
 
     }
 
@@ -126,7 +133,7 @@ namespace casino{
         int currentValue = 0;
         std::vector<cards::card> ace;
 
-        // Iterating over the hand of cards
+        // Iterating over the hand of cards (using iterator since we could remove the card)
         for(std::vector<cards::card>::iterator it = c.begin(); it != c.end(); ++it){
             currentValue = cardPoints(*it); // Getting the value of a single card
             if(currentValue == 11){
@@ -138,6 +145,7 @@ namespace casino{
             currentValue = 0;
         }
 
+        // Handling the aces since it is a special case
         if(ace.size() > 0){
             if(ace.size() > 1){
                 if(handTotal < (11 - ace.size()))
