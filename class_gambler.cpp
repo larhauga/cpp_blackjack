@@ -19,24 +19,34 @@ using namespace casino;
 
         strategy* s = new blackjackStrategy(ct);
         strategies.push_back(s);
+
+        wallet = 0;
+         // We are generous and give you 1000 chips to play for! Congrats!
+        giveMoney(1000);
     }
     void gambler::giveMoney(cash amount){
-        wallet += amount;
+        if(amount > 0){
+            wallet += amount;
+            //cout << "You got " << wallet << " cash in wallet." << endl;
+        }else{
+            cout << "You got " << wallet << " cash in wallet." << endl;
+        }
     }
     cash gambler::placeBet(){
-        // Cin amount?
-        //string* s = new string();
-        int i = 0;
+        float bet = 0;
         try{
         cout << "Place bet: ";
-        cin >> i;
+        cin >> bet;
         }catch(int e){
             cout << endl << "Could not get that. Which amount will you bet? ";
-            cin >> i;
+            cin >> bet;
         }
-        // Remove money from wallet, and return the amount.
-        // Cannot plage a bet larger than wallet?
-        // This function is not done!!!!!
+        if(bet <= wallet){
+            wallet -= bet;
+            return bet;
+        }else{
+            return 0;
+        }
 
     }
     string gambler::name(){
