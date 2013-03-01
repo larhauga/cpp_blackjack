@@ -12,8 +12,13 @@ namespace casino{
                 blackjackAction::actionType = blackjackAction::HIT;
             }else if(input == "STAND"){
                 blackjackAction::actionType = blackjackAction::STAND;
+            // Ready to implement new features
+            //}else if(input == "DOUBLE"){
+            //    blackjackAction::actionType = blackjackAction::DOUBLE;
+            //}else if(input == "SPLIT"){
+            //    blackjackAction::actionType = blackjackAction::SPLIT;
             }else{
-                std::cout << "Unknown action. HIT or STAND" << std::endl;
+                std::cout << "Unknown action" << std::endl;
             }
         }else{
 
