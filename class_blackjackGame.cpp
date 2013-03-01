@@ -37,10 +37,18 @@
         //Placing bet from the one player implemented here
         gamblers[0].giveMoney(0);
         playerCash = gamblers[0].placeBet();
+        bool gotMoney = true;
+        while(playerCash < 1 && playerCash != -1){
+            playerCash = gamblers[0].placeBet();
+        }
+        if(playerCash == -1){
+            std::cout << "You don't have any money left. You have lost!" << std::endl;
+            gotMoney = false;
+        }
         std::cout << std::endl;
 
         bool isDone = 0;
-        while(handValue(dealtcards.at(player)) < 21 && isDone == 0){
+        while(gotMoney && handValue(dealtcards.at(player)) < 21 && isDone == 0){
             action* a = gamblers[0].takeAction(gstate);
             blackjackAction* action = static_cast<blackjackAction*>(a);
 
@@ -64,10 +72,11 @@
             gstate = new blackjackState(dealtcards, player, dealer);
         }
 
-
+        
         int playerFinalScore = handValue(dealtcards.at(player));
         int dealerFinalScore = handValue(dealtcards.at(dealer));
-
+        
+        if(gotMoney){
         std::cout << std::endl;
         // If the player has BLACKJACK
         if(playerFinalScore == 21 && dealtcards.at(player).size() == 2){
@@ -102,7 +111,7 @@
 
         std::cout << std::endl << "\tPlayer score:\t" << playerFinalScore << std::endl;
         std::cout << "\tDealer score:\t" << dealerFinalScore << std::endl;
-        
+        }
         delete gstate;
     }
 
