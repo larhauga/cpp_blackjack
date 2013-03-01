@@ -10,7 +10,7 @@ namespace cards{
     deck::deck(){
         for(int suitnum = 0; suitnum < NUM_SUITS; suitnum++){
            for(int ranknum = 0; ranknum < NUM_RANKS; ranknum++){
-               cards.push_back(card((t_suit)suitnum, ranks[ranknum]));
+               this->cards.push_back(card((t_suit)suitnum, ranks[ranknum]));
            }
         }
     }
@@ -18,7 +18,7 @@ namespace cards{
         for(int i = 0; i < deckCount; i++){
             for(int suitnum = 0; suitnum < NUM_SUITS; suitnum++){
                 for(int ranknum = 0; ranknum < NUM_RANKS; ranknum++){
-                    cards.push_back(card((t_suit)suitnum, ranks[ranknum]));
+                    this->cards.push_back(card((t_suit)suitnum, ranks[ranknum]));
                 }
             }
         }
