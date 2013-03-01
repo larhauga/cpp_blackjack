@@ -8,99 +8,78 @@
 #include "class_blackjackState.h"
 #include "class_blackjackAction.h"
 
-namespace casino{
+    using namespace casino;
 
     blackjackGame::blackjackGame(int players) : game(blackjack, players) {
-    
+        // Passing parameter to game
     };
         
 
     void blackjackGame::playRound(){
-        // Fixing vectors
-        std::vector<cards::card> dealer;
-        std::vector<cards::card> player;
-        std::vector<std::vector<cards::card> > cards;
+        // Setting up variabels
+        std::vector<std::vector<cards::card> > dealtcards;
+        int player = 0;
+        int dealer = 1;
+        float playerCash = 0;
         
         //Dealing
-        player.push_back(deck.deal());
-        dealer.push_back(deck.deal());
-        player.push_back(deck.deal());
-        dealer.push_back(deck.deal());
-        cards.push_back(player);
-        cards.push_back(dealer);
+        dealtcards.push_back(std::vector<cards::card>());   // Initializing vector in vector
+        dealtcards.push_back(std::vector<cards::card>());   // Initializing vector in vector
+        dealtcards.at(player).push_back(deck.deal());       // Dealing to player
+        dealtcards.at(dealer).push_back(deck.deal());       // Dealing to dealer
+        dealtcards.at(player).push_back(deck.deal());       
+        dealtcards.at(dealer).push_back(deck.deal());
 
         //It's all about the State!
-        gameState* state;
-        state = new blackjackState(cards, 0, 1); 
-        int score_dealer = 0;
-        int score_player = 0;
+        gameState* gstate = new blackjackState(dealtcards, player, dealer); 
+        //blackjackState* bstate = (blackjackState*) &gstate;
 
+        //Placing bet from the one player implemented here
+        gamblers[0].giveMoney(0);
+        playerCash = gamblers[0].placeBet();
 
-        action* a = gamblers[0].takeAction(state);
-        a->print();
-        blackjackAction* bla = static_cast<blackjackAction*>(a);
-        blackjackAction::atype b = bla->getAtype();
-        
-        //blackjackAction::atype ty = *a.getAtype();
-        std::cout << b << std::endl;
-/*
-        std::string inState = "";
-        // Playing with a player
-        while(blackjackGame::handValue(player) < 21 && inState != "STAND"){
-            score_dealer = blackjackGame::handValue(dealer);
-            score_player = blackjackGame::handValue(player);
+        bool isDone = 0;
+        while(handValue(dealtcards.at(player)) < 21 && isDone == 0){
+            action* a = gamblers[0].takeAction(gstate);
+            blackjackAction* action = static_cast<blackjackAction*>(a);
 
-            if(score_player > 21){
-                inState = "STAND";
-            }else{
-
-                // Print the state of things
-                state->print();
-            
-                std::cout << "HIT or STAND: ";
-                inState = "";
-                std::cin >> inState;
-
-                if(inState == "HIT"){
-                    cards::card c = deck.deal();
-                    cards[0].push_back(c);
-                    player.push_back(c);
-                    state = new blackjackState(cards, 0, 1);
-                    score_player = blackjackGame::handValue(player);
-                }
+            if(action->getAtype() == blackjackAction::HIT){
+                dealtcards.at(player).push_back(deck.deal());
+                gstate = new blackjackState(dealtcards, player, dealer);
+            }
+            else if(action->getAtype() == blackjackAction::STAND){
+                isDone = 1;
             }
         }
-*/        
+
         // The house is playing
-        while(blackjackGame::handValue(dealer) < 17){
-            cards::card c = deck.deal();
-            cards[1].push_back(c);
-            dealer.push_back(c);
-            state = new blackjackState(cards, 0, 1);
-            score_dealer = blackjackGame::handValue(dealer);
+        while(blackjackGame::handValue(dealtcards.at(dealer)) < 17){
+            dealtcards.at(dealer).push_back(deck.deal());
+            gstate = new blackjackState(dealtcards, player, dealer);
         }
 
-        if(score_player == 21){
+
+        int playerFinalScore = handValue(dealtcards.at(player));
+        int dealerFinalScore = handValue(dealtcards.at(dealer));
+        if(playerFinalScore == 21){
             std::cout << "BLACKJACK! Player won!" << std::endl;
         }
-        else if(score_dealer <= 21 && score_dealer > score_player){
-            std::cout << "Dealer won with total score of " << score_dealer << " points!" << std::endl;
+        else if(dealerFinalScore <= 21 && dealerFinalScore > playerFinalScore){
+            std::cout << "Dealer won with total score of " << dealerFinalScore << " points!" << std::endl;
         }
-        else if(score_player <= 21 && score_player > score_dealer){
-            std::cout << "Player won with total score of " << score_player << " points!" << std::endl;
+        else if(playerFinalScore <= 21 && playerFinalScore > dealerFinalScore){
+            std::cout << "Player won with total score of " << playerFinalScore << " points!" << std::endl;
         }
-        else if(score_player > 21 && score_dealer > 21){
+        else if(playerFinalScore > 21 && dealerFinalScore > 21){
             std::cout << "Went skyhigh and no one won!" << std::endl;
         }
-        else if(score_player == score_dealer){
+        else if(playerFinalScore == dealerFinalScore){
             std::cout << "Push..." << std::endl;
         }
 
-        std::cout << "Player score: " << score_player << std::endl;
-        std::cout << "Dealer score: " << score_dealer << std::endl;
+        std::cout << "Player score: " << playerFinalScore << std::endl;
+        std::cout << "Dealer score: " << dealerFinalScore << std::endl;
         
-        delete state;
-        delete a;
 
     }
 
@@ -184,4 +163,3 @@ namespace casino{
         }
         return 0;
     }
-}
