@@ -2,6 +2,7 @@
 #include "class_blackjackStrategy.h"
 #include "class_blackjackAction.h"
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace casino;
@@ -33,18 +34,25 @@ using namespace casino;
         }
     }
     cash gambler::placeBet(){
-        float bet = 0;
-        try{
+        cash bet = 0;
+        string s = "";
         cout << "Place bet: ";
-        cin >> bet;
-        }catch(int e){
-            cout << endl << "Could not get that. Which amount will you bet? ";
-            cin >> bet;
+        cin >> s;
+        
+        stringstream str(s);
+        stringstream(s) >> bet;
+
+        if(wallet == 0){
+            return -1;
         }
+
         if(bet <= wallet){
             wallet -= bet;
             return bet;
+        }else if(bet > wallet){
+            cout << "You do not have that much cash. You only have " << wallet << endl;
         }else{
+            cout << "Not a valid number" << endl;
             return 0;
         }
 
