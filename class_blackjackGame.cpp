@@ -45,24 +45,29 @@
 
             if(action->getAtype() == blackjackAction::HIT){
                 dealtcards.at(player).push_back(deck.deal());
+                delete gstate;
                 gstate = new blackjackState(dealtcards, player, dealer);
             }
             else if(action->getAtype() == blackjackAction::STAND){
                 isDone = 1;
             }
+            delete a;
         }
 
         // The house is playing
         while(blackjackGame::handValue(dealtcards.at(dealer)) < 17){
             dealtcards.at(dealer).push_back(deck.deal());
+            delete gstate;
             gstate = new blackjackState(dealtcards, player, dealer);
         }
 
 
         int playerFinalScore = handValue(dealtcards.at(player));
         int dealerFinalScore = handValue(dealtcards.at(dealer));
-        if(playerFinalScore == 21){
-            std::cout << "BLACKJACK! Player won!" << std::endl;
+
+        if(playerFinalScore == 21 && dealtcards.at(player).size() == 2){
+            std::cout << "BLACKJACK! Player won " << (playerCash + playerCash*1.5) << " cash" << std::endl;
+            gamblers[0].giveMoney(playerCash + playerCash*1.5);
         }
         else if(dealerFinalScore <= 21 && dealerFinalScore > playerFinalScore){
             std::cout << "Dealer won with total score of " << dealerFinalScore << " points!" << std::endl;
@@ -80,7 +85,7 @@
         std::cout << "Player score: " << playerFinalScore << std::endl;
         std::cout << "Dealer score: " << dealerFinalScore << std::endl;
         
-
+        delete gstate;
     }
 
     void blackjackGame::start(){
@@ -146,7 +151,6 @@
         return handTotal;
     }
 
-    // This function is right now not a part of the class
     int blackjackGame::cardPoints(cards::card c){
         for(int i = 0; i < cards::NUM_RANKS; i++){
             if(cards::ranks[i] == c.getRank()){
