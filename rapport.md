@@ -21,3 +21,8 @@ One of the most difficult part of this task has been to do the *right* thing in 
  - Not posible to assign values to *gameType* in *class_gameState* or *class_strategy* and thus not a right polimorphic implementation.
  - No deconstructor to free memory from e.g gamblers strategies
 
+### Known bugs
+ - Memory leakage from vector of cards when pased to blackjackState.
+ - Memory leakage of x gamblers after initalization, especialy because of the strategy pointer vector in gambler (No deconstructor available)
+ - Not possible to bet more than 1000 cash at the moment. This has been not been a priority to implement (its actually a no-brainer)
+    - If the player uses all his cash, then he has lost and have to start the game anew
