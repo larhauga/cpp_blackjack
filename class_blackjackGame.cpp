@@ -27,6 +27,7 @@
         if(deck->size() < ((gamblers.size()*2)+2)){
             delete deck;
             deck = new cards::deck();
+            deck->shuffle();
         }
         //Dealing
         dealtcards.push_back(std::vector<cards::card>());   // Initializing vector in vector
@@ -62,6 +63,7 @@
                 if(deck->size() < 2){
                     delete deck;
                     deck = new cards::deck();
+                    deck->shuffle();
                 }
                 dealtcards.at(player).push_back(deck->deal());
                 delete gstate;
@@ -80,6 +82,7 @@
             if(deck->size() < 2){
                 delete deck;
                 deck = new cards::deck();
+                deck->shuffle();
             }
             dealtcards.at(dealer).push_back(deck->deal());
             delete gstate;
