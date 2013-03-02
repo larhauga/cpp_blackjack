@@ -11,7 +11,7 @@ There has been some difficulties with the usage and getting to know the framewor
  - Intresting implementation of heritage when dereferencing base pointers to point to child class objects.
  - Logicaly implementing the relationship between blackjackGame -> gambler -> blackjackState -> blackjackAction and int turn passing the right type of values between these.
  - Intresting to try different types of casting while working with pointers
- - Dificulty in stopping memory leaks without the posibility to implement destructors. There is a bug that causes 512 bytes to leak due to the vector of cards. Cannot free the memory since I do not have a destructor.
+ - Dificulty in stopping memory leaks without the posibility to implement destructors. A special case of this is the gambler and the gamblers strategies. Since these are added in the game constructor, there are no other locigal place to delete than in the destructor.
  - Implemeting sanity checks to compensate for bad imput, has been intresting and I think I have learned som new things here.
 
 
@@ -19,5 +19,5 @@ One of the most difficult part of this task has been to do the *right* thing in 
 
 ### Some drawbacks
  - Not posible to assign values to *gameType* in *class_gameState* or *class_strategy* and thus not a right polimorphic implementation.
- - No deconstructor to free memory from e.g gamblers strategies or vector of cards in blackjackState
+ - No deconstructor to free memory from e.g gamblers strategies
 
