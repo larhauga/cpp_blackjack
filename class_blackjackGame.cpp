@@ -22,6 +22,12 @@
         int dealer = 1;
         float playerCash = 0;
         
+        // Hackey method for setting up new cards
+        std::cout << deck->size() << std::endl;
+        if(deck->size() < ((gamblers.size()*2)+2)){
+            delete deck;
+            deck = new cards::deck();
+        }
         //Dealing
         dealtcards.push_back(std::vector<cards::card>());   // Initializing vector in vector
         dealtcards.push_back(std::vector<cards::card>());   // Initializing vector in vector
@@ -53,6 +59,10 @@
             blackjackAction* action = static_cast<blackjackAction*>(a);
 
             if(action->getAtype() == blackjackAction::HIT){
+                if(deck->size() < 2){
+                    delete deck;
+                    deck = new cards::deck();
+                }
                 dealtcards.at(player).push_back(deck->deal());
                 delete gstate;
                 gstate = new blackjackState(dealtcards, player, dealer);
@@ -67,6 +77,10 @@
 
         // The house is playing
         while(blackjackGame::handValue(dealtcards.at(dealer)) < 17){
+            if(deck->size() < 2){
+                delete deck;
+                deck = new cards::deck();
+            }
             dealtcards.at(dealer).push_back(deck->deal());
             delete gstate;
             gstate = new blackjackState(dealtcards, player, dealer);
@@ -77,40 +91,40 @@
         int dealerFinalScore = handValue(dealtcards.at(dealer));
         
         if(gotMoney){
-        std::cout << std::endl;
-        // If the player has BLACKJACK
-        if(playerFinalScore == 21 && dealtcards.at(player).size() == 2){
-            std::cout << "\tBLACKJACK! Player won " << (playerCash + playerCash*1.5) << " cash" << std::endl;
-            gamblers[0].giveMoney(playerCash + playerCash*1.5);
-        }
-        // The dealer busts
-        else if(playerFinalScore <= 21 && dealerFinalScore > 21){
-            std::cout << "\tDealer busted. You won " << playerCash << " cash" << std::endl;
-            gamblers[0].giveMoney(playerCash + playerCash);
-        }
-        // The user busts
-        else if(playerFinalScore > 21){
-            std::cout << "\tYou busted. Dealer won " << playerCash << " cash"<< std::endl;
-            // Add money to the dealer (house)
-        }
-        // Dealer won.
-        else if(dealerFinalScore <= 21 && dealerFinalScore > playerFinalScore){
-            std::cout << "\tDealer won with total score of " << dealerFinalScore << " points!" << std::endl;
-            // Add money to the dealer (house)
-        }
-        // Player won
-        else if(playerFinalScore <= 21 && playerFinalScore > dealerFinalScore){
-            std::cout << "\tPlayer won with total score of " << playerFinalScore << " points!" << std::endl;
-            gamblers[0].giveMoney(playerCash + playerCash);
-        }
-        // Push
-        else if(playerFinalScore == dealerFinalScore){
-            std::cout << "\tPush. Nobody won" << std::endl;
-            gamblers[0].giveMoney(playerCash); // Get back only the effort
-        }
+            std::cout << std::endl;
+            // If the player has BLACKJACK
+            if(playerFinalScore == 21 && dealtcards.at(player).size() == 2){
+                std::cout << "\tBLACKJACK! Player won " << ((playerCash*1.5)) << " cash" << std::endl;
+                gamblers[0].giveMoney(playerCash + (playerCash*1.5));
+            }
+            // The dealer busts
+            else if(playerFinalScore <= 21 && dealerFinalScore > 21){
+                std::cout << "\tDealer busted. You won " << playerCash << " cash" << std::endl;
+                gamblers[0].giveMoney(playerCash + playerCash);
+            }
+            // The user busts
+            else if(playerFinalScore > 21){
+                std::cout << "\tYou busted. Dealer won " << playerCash << " cash"<< std::endl;
+                // Add money to the dealer (house)
+            }
+            // Dealer won.
+            else if(dealerFinalScore <= 21 && dealerFinalScore > playerFinalScore){
+                std::cout << "\tDealer won with total score of " << dealerFinalScore << " points!" << std::endl;
+                // Add money to the dealer (house)
+            }
+            // Player won
+            else if(playerFinalScore <= 21 && playerFinalScore > dealerFinalScore){
+                std::cout << "\tPlayer won with total score of " << playerFinalScore << " points!" << std::endl;
+                gamblers[0].giveMoney(playerCash + playerCash);
+            }
+            // Push
+            else if(playerFinalScore == dealerFinalScore){
+                std::cout << "\tPush. Nobody won" << std::endl;
+                gamblers[0].giveMoney(playerCash); // Get back only the effort
+            }
 
-        std::cout << std::endl << "\tPlayer score:\t" << playerFinalScore << std::endl;
-        std::cout << "\tDealer score:\t" << dealerFinalScore << std::endl;
+            std::cout << std::endl << "\tPlayer score:\t" << playerFinalScore << std::endl;
+            std::cout << "\tDealer score:\t" << dealerFinalScore << std::endl;
         }
         delete gstate;
     }
