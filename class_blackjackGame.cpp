@@ -25,10 +25,10 @@
         //Dealing
         dealtcards.push_back(std::vector<cards::card>());   // Initializing vector in vector
         dealtcards.push_back(std::vector<cards::card>());   // Initializing vector in vector
-        dealtcards.at(player).push_back(deck.deal());       // Dealing to player
-        dealtcards.at(dealer).push_back(deck.deal());       // Dealing to dealer
-        dealtcards.at(player).push_back(deck.deal());       
-        dealtcards.at(dealer).push_back(deck.deal());
+        dealtcards.at(player).push_back(deck->deal());       // Dealing to player
+        dealtcards.at(dealer).push_back(deck->deal());       // Dealing to dealer
+        dealtcards.at(player).push_back(deck->deal());       
+        dealtcards.at(dealer).push_back(deck->deal());
 
         //It's all about the State!
         gameState* gstate = new blackjackState(dealtcards, player, dealer); 
@@ -53,7 +53,7 @@
             blackjackAction* action = static_cast<blackjackAction*>(a);
 
             if(action->getAtype() == blackjackAction::HIT){
-                dealtcards.at(player).push_back(deck.deal());
+                dealtcards.at(player).push_back(deck->deal());
                 delete gstate;
                 gstate = new blackjackState(dealtcards, player, dealer);
             }
@@ -67,7 +67,7 @@
 
         // The house is playing
         while(blackjackGame::handValue(dealtcards.at(dealer)) < 17){
-            dealtcards.at(dealer).push_back(deck.deal());
+            dealtcards.at(dealer).push_back(deck->deal());
             delete gstate;
             gstate = new blackjackState(dealtcards, player, dealer);
         }
@@ -117,10 +117,10 @@
 
     void blackjackGame::start(){
         // Setting up the deck
-        deck = cards::deck();
+        blackjackGame::deck = new cards::deck();
 
         // Everyday I'm shuffeling
-        deck.shuffle();
+        deck->shuffle();
 
         // while playing some rounds m'kay
         try{
@@ -138,6 +138,7 @@
             delete s;
         }catch(int e){
         }
+        delete deck;
     }
 
     int blackjackGame::handValue(std::vector<cards::card> c){

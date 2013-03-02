@@ -26,7 +26,7 @@ namespace casino{
     virtual void start();
 
     //Not part of original design
-    cards::deck deck;
+    cards::deck* deck;
     int cardPoints(cards::card);
     int handValue(std::vector<cards::card>);
     
