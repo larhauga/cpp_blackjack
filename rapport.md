@@ -8,9 +8,9 @@ Evry function defined in the header files is implemented as far as it is resonab
 
 There has been some difficulties with the usage and getting to know the framework (casino). As mentioned there is many functions which is not beeing used, or are intended perpose is badly documented which has resulted in meny overhead hours of implementation.
 ### Highlights - What I think
- - Intresting implementation of heritage when dereferencing base pointers to point to child class objects.
+ - Many intresting implementation with heritage when dereferencing base pointers to point to child class objects.
  - Logicaly implementing the relationship between blackjackGame -> gambler -> blackjackState -> blackjackAction and int turn passing the right type of values between these.
- - Intresting to try different types of casting while working with pointers
+ - Tried many different types of casting while working with pointers. Ended up with using static casting.
  - Dificulty in stopping memory leaks without the posibility to implement destructors. A special case of this is the gambler and the gamblers strategies. Since these are added in the game constructor, there are no other locigal place to delete than in the destructor.
  - Implemeting sanity checks to compensate for bad imput, has been intresting and I think I have learned som new things here.
 
@@ -22,7 +22,7 @@ One of the most difficult part of this task has been to do the *right* thing in 
  - No deconstructor to free memory from e.g gamblers strategies
 
 ### Known bugs
- - Memory leakage from vector of cards when pased to blackjackState.
+~~- Memory leakage from vector of cards when pased to blackjackState.~~ 
  - Memory leakage of x gamblers after initalization, especialy because of the strategy pointer vector in gambler (No deconstructor available)
  - Not possible to bet more than 1000 cash at the moment. This has been not been a priority to implement (its actually a no-brainer)
     - If the player uses all his cash, then he has lost and have to start the game anew

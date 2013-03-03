@@ -23,7 +23,6 @@
         float playerCash = 0;
         
         // Hackey method for setting up new cards
-        std::cout << deck->size() << std::endl;
         if(deck->size() < ((gamblers.size()*2)+2)){
             delete deck;
             deck = new cards::deck();
@@ -38,7 +37,7 @@
         dealtcards.at(dealer).push_back(deck->deal());
 
         //It's all about the State!
-        gameState* gstate = new blackjackState(dealtcards, player, dealer); 
+        blackjackState* gstate = new blackjackState(dealtcards, player, dealer); 
         //blackjackState* bstate = (blackjackState*) &gstate;
 
         //Placing bet from the one player implemented here
